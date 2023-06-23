@@ -36,12 +36,14 @@ service('auth')->routes($routes);
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->post('register', 'AuthController::register');
     $routes->post('login', 'AuthController::login');
-    $routes->get('profile', 'AuthController::profile');
-    $routes->post('logout', 'AuthController::logout');
+    $routes->get('profile', 'AuthController::profile', ['filter' => 'apiauth']);
+    $routes->get('logout', 'AuthController::logout', ['filter' => 'apiauth']);
 
-    $routes->post('add-project', 'AuthController::addProject');
-    $routes->post('list-project', 'AuthController::listProjects');
-    $routes->delete('delete-project/(:any)', 'AuthController::deleteProject');
+    $routes->post('add-project', 'ProjectsController::addProject');
+    $routes->post('list-project', 'ProjectsController::listProjects');
+    $routes->delete('delete-project/(:any)', 'ProjectsController::deleteProject');
+    
+    $routes->get('invalid', 'AuthController::invalidRequest');
 });
 
 /*
